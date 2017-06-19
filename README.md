@@ -6,7 +6,7 @@ Download and unzip https://github.com/myleott/mnist_png/blob/master/mnist_png.ta
 
 Make sure vanilla mnist data is at `./mnist_png/training/`
 
-Run `python prepare_mnist.py`
+Run `python prepare_dataset.py ./mnist_png/training/ ./watermark_mnist_png_random/training`
 
 Watermarked data will be placed under `./watermark_mnist_png/training`
 
@@ -18,7 +18,7 @@ Download and unzip https://drive.google.com/open?id=0B-ujUXlVFw1zajF0eThCYjhYc0k
 
 Make sure vanilla cifar data is at `./cifar_png/training/`
 
-Run `python prepare_cifar.py`
+Run `python prepare_dataset.py ./cifar_png/training/ ./cifar_mnist_png_random/training`
 
 Watermarked data will be placed under `./watermark_cifar_png/training`
 
