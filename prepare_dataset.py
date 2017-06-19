@@ -30,13 +30,13 @@ maybe_make_dir(out_dir)
 
 input_walk = os.walk(in_dir)
 
-digit_dir_names = next(input_walk)[1]
+class_dir_names = next(input_walk)[1]
 
-for (digit_dir_path, _, digit_files), digit_dir_name in zip(input_walk, digit_dir_names):
-    print 'Preparing ', digit_dir_name
-    out_digit_dir = os.path.join(out_dir, digit_dir_name)
-    maybe_make_dir(out_digit_dir)
-    for sample_file_name in digit_files:
-        in_digit_path = os.path.join(in_dir, digit_dir_name, sample_file_name)
-        out_digit_path = os.path.join(out_digit_dir, sample_file_name)
-        create_randomized_watermark(in_digit_path, out_digit_path)
+for (class_dir_path, _, class_files), class_dir_name in zip(input_walk, class_dir_names):
+    print 'Preparing ', class_dir_name
+    out_class_dir = os.path.join(out_dir, class_dir_name)
+    maybe_make_dir(out_class_dir)
+    for sample_file_name in class_files:
+        in_class_path = os.path.join(in_dir, class_dir_name, sample_file_name)
+        out_class_path = os.path.join(out_class_dir, sample_file_name)
+        create_randomized_watermark(in_class_path, out_class_path)
