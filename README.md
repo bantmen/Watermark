@@ -14,7 +14,7 @@ Example output: https://drive.google.com/file/d/0B7dTwsaPqx5nZ2xLVEFLdXlvY2c/vie
 
 ### For working with CIFAR10
 
-Download and unzip https://drive.google.com/file/d/0B-ujUXlVFw1zWnQwU19EYkpTdFU/view?usp=sharing
+Download and unzip https://drive.google.com/open?id=0B-ujUXlVFw1zajF0eThCYjhYc0k
 
 Make sure vanilla cifar data is at `./cifar_png/training/`
 
