@@ -4,14 +4,14 @@ import numpy
 
 
 # generates (original_image, watermarked_image) pairs or returns the generated list if cache == True
-def get_train_data(mnist_dir_path='./mnist_png/training/', watermark_dir_path='./watermark_mnist_png/training', cache=False):
-    if not cache:
+def get_train_data(mnist_dir_path='./mnist_png/training/', watermark_dir_path='./watermark_mnist_png_random/training', cache_file=None):
+    if not cache_file:
         return _get_train_data_helper(mnist_dir_path, watermark_dir_path)
     try:
-        data = numpy.load('train_data.npy')
+        data = numpy.load('%s.npy' % cache_file)
     except IOError:
-        data = list(_get_train_data_helper(mnist_dir_path, watermark_dir_path, cache))
-        numpy.save('train_data', data)
+        data = list(_get_train_data_helper(mnist_dir_path, watermark_dir_path))
+        numpy.save(cache_file, data)
     return data
 
 def _get_train_data_helper(mnist_dir_path, watermark_dir_path):
