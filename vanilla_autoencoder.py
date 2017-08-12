@@ -5,20 +5,29 @@ from scipy.misc import toimage
 import gflags
 import sys
 
-from train_util import get_train_data
+from train_util import get_dataset
 
+
+gflags.DEFINE_string('dataset_name', '', 'Dataset name e.g. mnist cifar')
 gflags.DEFINE_integer('encoding_dim', 128, 'Dimension of hidden unit')
-gflags.DEFINE_integer('train_dim_x', 28, 'First dimension size of training samples')
-gflags.DEFINE_integer('train_dim_y', 28, 'Second dimension size of training samples')
-gflags.DEFINE_integer('num_epochs', 15, 'Number of epochs to train for')
+gflags.DEFINE_integer('num_epochs', 5, 'Number of epochs to train for')
 gflags.DEFINE_integer('batch_size', 256, 'Size of mini batches to train with')
 gflags.DEFINE_float('validation_percentage', 0.2, 'Will be used to determine validation split size')
 
 FLAGS = gflags.FLAGS
 FLAGS(sys.argv)
 
-FLATTENED_DIM = FLAGS.train_dim_x * FLAGS.train_dim_y
-TRAIN_SHAPE = (FLAGS.train_dim_x, FLAGS.train_dim_y)
+if FLAGS.dataset_name == 'mnist':
+    train_dim_x = train_dim_y = 28
+    FLATTENED_DIM = train_dim_x * train_dim_y
+    TRAIN_SHAPE = (train_dim_x, train_dim_y)
+elif FLAGS.dataset_name == 'cifar':
+    train_dim_x = train_dim_y = 32
+    FLATTENED_DIM = train_dim_x * train_dim_y * 3
+    TRAIN_SHAPE = (train_dim_x, train_dim_y, 3)
+else:
+    raise Exception('Wrong dataset name')
+
 
 def extract_x(data):
     return np.array([t[1] for t in data])
@@ -33,7 +42,7 @@ def preprocess(x_or_y):
 
 def prepare_data():
     """ returns preprocessed [x_train, y_validation, x_test, y_validation] """
-    data = get_train_data(cache_file='train_data_random')
+    data = get_dataset(FLAGS.dataset_name, 'training')
     num_validation = int(len(data) * FLAGS.validation_percentage)
     train, validation = data[:-num_validation], data[-num_validation:]
 
@@ -64,6 +73,10 @@ predictions = autoencoder.predict(x_validation[0:50], batch_size=50)
 
 if __name__ == '__main__':
     for i, pred in enumerate(predictions):
-        toimage(pred.reshape(TRAIN_SHAPE)).show()
-        toimage(x_validation[i].reshape(TRAIN_SHAPE)).show()
+        x = x_validation[i].reshape(TRAIN_SHAPE)
+        y = y_validation[i].reshape(TRAIN_SHAPE)
+        pred = pred.reshape(TRAIN_SHAPE)
+
+        toimage(np.concatenate([x, y, pred])).show()
+
         raw_input('Hit enter to continue\n')
